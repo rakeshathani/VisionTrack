@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VisionTrack - Teacher Dashboard</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+
+        .navbar {
+            background-color: #1a6b3c;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .navbar h1 { font-size: 20px; }
+
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            background-color: #e74c3c;
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+
+        .container { padding: 30px; }
+
+        .welcome {
+            font-size: 18px;
+            color: #2c3e50;
+            margin-bottom: 24px;
+        }
+
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+
+        .section h2 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .class-card {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 16px;
+            margin-bottom: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .class-info h3 {
+            font-size: 15px;
+            color: #2c3e50;
+        }
+
+        .class-info p {
+            font-size: 12px;
+            color: #7f8c8d;
+            margin-top: 4px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 8px 16px;
+            border-radius: 8px;
+            font-size: 13px;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            margin-left: 6px;
+        }
+
+        .btn-primary { background-color: #1a6b3c; color: white; }
+        .btn-info    { background-color: #2980b9; color: white; }
+        .btn-warning { background-color: #f39c12; color: white; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+            color: #555;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+
+        .happy    { color: green; font-weight: bold; }
+        .sad      { color: blue;  font-weight: bold; }
+        .angry    { color: red;   font-weight: bold; }
+        .neutral  { color: gray;  font-weight: bold; }
+        .surprised{ color: orange;font-weight: bold; }
+
+        .success-msg {
+            background-color: #eafaf1;
+            color: #27ae60;
+            padding: 10px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-bottom: 16px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>🎓 VisionTrack — Teacher Panel</h1>
+    <a href="/logout">Logout</a>
+</div>
+
+<div class="container">
+
+    <div class="welcome">Welcome, {{ session.name }}! 👋</div>
+
+    {% if message %}
+    <div class="success-msg">✅ {{ message }}</div>
+    {% endif %}
+
+    <!-- My Classes -->
+    <div class="section">
+        <h2>My Classes</h2>
+
+        {% if classes %}
+            {% for cls in classes %}
+            <div class="class-card">
+                <div class="class-info">
+                    <h3>{{ cls[1] }} — {{ cls[2] }}</h3>
+                    <p>{{ cls[3] }} students enrolled</p>
+                </div>
+                <div>
+                    <a href="/teacher/take_attendance/{{ cls[0] }}" class="btn btn-primary">
+                        Take Attendance
+                    </a>
+                    <a href="/teacher/view_attendance/{{ cls[0] }}" class="btn btn-info">
+                        View Records
+                    </a>
+                    <a href="/teacher/export/{{ cls[0] }}" class="btn btn-warning">
+                        Export CSV
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        {% else %}
+            <p style="color:#7f8c8d;font-size:13px">No classes assigned yet. Ask admin to assign a class.</p>
+        {% endif %}
+    </div>
+
+    <!-- Recent Attendance -->
+    <div class="section">
+        <h2>Recent Attendance Records</h2>
+        <table>
+            <tr>
+                <th>Student</th>
+                <th>Class</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Emotion</th>
+            </tr>
+            {% for record in attendance %}
+            <tr>
+                <td>{{ record[0] }}</td>
+                <td>{{ record[1] }}</td>
+                <td>{{ record[2] }}</td>
+                <td>{{ record[3] }}</td>
+                <td class="{{ record[4] }}">{{ record[4] }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+</body>
+</html>

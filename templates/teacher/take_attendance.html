@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VisionTrack - Take Attendance</title>
+    <style>
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+        }
+        .navbar {
+            background-color: #1a6b3c;
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .navbar h1 { font-size: 20px; }
+        .navbar a {
+            color: white;
+            text-decoration: none;
+            font-size: 14px;
+            background-color: #e74c3c;
+            padding: 6px 14px;
+            border-radius: 6px;
+        }
+        .container { padding: 30px; }
+        .section {
+            background: white;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+        }
+        .section h2 {
+            font-size: 16px;
+            color: #2c3e50;
+            margin-bottom: 16px;
+            padding-bottom: 10px;
+            border-bottom: 1px solid #eee;
+        }
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            border-radius: 8px;
+            font-size: 14px;
+            cursor: pointer;
+            border: none;
+            text-decoration: none;
+            margin-right: 8px;
+        }
+        .btn-primary { background-color: #1a6b3c; color: white; }
+        .btn-danger  { background-color: #e74c3c; color: white; }
+        .btn-back    { background-color: #7f8c8d; color: white; }
+        .info-box {
+            background-color: #eafaf1;
+            border-left: 4px solid #27ae60;
+            padding: 12px 16px;
+            border-radius: 0 8px 8px 0;
+            margin-bottom: 16px;
+            font-size: 13px;
+            color: #1a6b3c;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 16px;
+        }
+        th {
+            background-color: #f8f9fa;
+            padding: 10px;
+            text-align: left;
+            font-size: 13px;
+            color: #555;
+        }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+            font-size: 13px;
+        }
+        .present { color: green; font-weight: bold; }
+        .absent  { color: red;   font-weight: bold; }
+    </style>
+</head>
+<body>
+
+<div class="navbar">
+    <h1>🎓 VisionTrack — Take Attendance</h1>
+    <a href="/teacher/dashboard">Back to Dashboard</a>
+</div>
+
+<div class="container">
+
+    <div class="section">
+        <h2>Class: {{ class_name }} — {{ subject }}</h2>
+
+        <div class="info-box">
+            {{ students|length }} students enrolled in this class.
+            Click "Start Camera" to begin marking attendance automatically.
+        </div>
+
+        <a href="/teacher/start_camera/{{ class_id }}" class="btn btn-primary">
+            Start Camera
+        </a>
+        <a href="/teacher/dashboard" class="btn btn-back">
+            Back
+        </a>
+    </div>
+
+    <!-- Students List -->
+    <div class="section">
+        <h2>Students in this Class</h2>
+        <table>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Email</th>
+                <th>Today's Status</th>
+            </tr>
+            {% for student in students %}
+            <tr>
+                <td>{{ student[0] }}</td>
+                <td>{{ student[1] }}</td>
+                <td>{{ student[2] }}</td>
+                <td>
+                    {% if student[0] in present_ids %}
+                        <span class="present">✅ Present</span>
+                    {% else %}
+                        <span class="absent">❌ Absent</span>
+                    {% endif %}
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+</div>
+</body>
+</html>
