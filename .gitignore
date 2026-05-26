@@ -1,0 +1,6 @@
+venv/
+__pycache__/
+*.pyc
+attendance_data/attendance.db
+models/encodings.pkl
+.idea/

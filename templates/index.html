@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>VisionTrack - Attendance Dashboard</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f2f5;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+        }
+
+        .summary {
+            background-color: #27ae60;
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-size: 20px;
+            margin-bottom: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        th {
+            background-color: #2c3e50;
+            color: white;
+            padding: 12px;
+            text-align: left;
+        }
+
+        td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:hover {
+            background-color: #f5f5f5;
+        }
+
+        .happy { color: green; font-weight: bold; }
+        .sad { color: blue; font-weight: bold; }
+        .angry { color: red; font-weight: bold; }
+        .surprised { color: orange; font-weight: bold; }
+        .neutral { color: gray; font-weight: bold; }
+    </style>
+</head>
+<body>
+
+    <h1>🎓 VisionTrack Attendance Dashboard</h1>
+
+    <div class="summary">
+        Total Attendance Records: {{ total }}
+    </div>
+
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Date</th>
+            <th>Time</th>
+            <th>Emotion</th>
+        </tr>
+
+        {% for record in records %}
+        <tr>
+            <td>{{ record[0] }}</td>
+            <td>{{ record[1] }}</td>
+            <td>{{ record[2] }}</td>
+            <td>{{ record[3] }}</td>
+            <td class="{{ record[4] }}">{{ record[4] }}</td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>
